@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { signup as apiSignup } from '../api';
 import { useAuth } from '../store/auth';
 import ThreeBackground from '../components/ThreeBackground';
@@ -236,7 +236,6 @@ const STEPS = ['Company', 'Account', 'Done'];
 
 export default function SignupPage() {
   const { setTokens } = useAuth();
-  const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [step1Data, setStep1Data] = useState<Step1Data | null>(null);
   const [isLoading, setIsLoading] = useState(false);
