@@ -8,12 +8,11 @@ export default function Layout() {
   const { pathname } = useLocation();
 
   if (loading) return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-primary)' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-        <div style={{ width: '20px', height: '20px', borderRadius: '50%', border: '2px solid rgba(99,102,241,0.3)', borderTopColor: '#6366f1', animation: 'spin 0.7s linear infinite' }} />
-        <span style={{ color: '#94a3b8', fontSize: '0.875rem' }}>Loading…</span>
+        <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: '2px solid #e2e8f0', borderTopColor: '#4f46e5', animation: 'spin 0.7s linear infinite' }} />
+        <span style={{ color: '#94a3b8', fontSize: '0.875rem', fontWeight: 500 }}>Loading…</span>
       </div>
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
   if (!user) return <Navigate to="/login" replace />;
@@ -24,38 +23,38 @@ export default function Layout() {
     { to: '/analytics', label: 'Analytics',   roles: ['MANAGER', 'ADMIN'] },
     { to: '/admin',     label: 'Admin',       roles: ['ADMIN'] },
     { to: '/audit',     label: 'Audit Trail', roles: ['ADMIN'] },
+    { to: '/help',      label: '? Guide',     roles: ['EMPLOYEE', 'MANAGER', 'ADMIN'] },
   ].filter((l) => l.roles.includes(user.role));
 
-  const roleStyle: Record<string, { bg: string; color: string; border: string }> = {
-    EMPLOYEE: { bg: 'rgba(6,182,212,0.12)',  color: '#67e8f9', border: 'rgba(6,182,212,0.35)' },
-    MANAGER:  { bg: 'rgba(99,102,241,0.12)', color: '#a5b4fc', border: 'rgba(99,102,241,0.35)' },
-    ADMIN:    { bg: 'rgba(236,72,153,0.12)', color: '#f9a8d4', border: 'rgba(236,72,153,0.35)' },
+  const rolePill: Record<string, { bg: string; color: string; border: string }> = {
+    EMPLOYEE: { bg: '#eff6ff', color: '#1d4ed8', border: '#bfdbfe' },
+    MANAGER:  { bg: '#eef2ff', color: '#4338ca', border: '#c7d2fe' },
+    ADMIN:    { bg: '#fdf4ff', color: '#7e22ce', border: '#e9d5ff' },
   };
-  const rs = roleStyle[user.role] ?? roleStyle.EMPLOYEE;
+  const rp = rolePill[user.role] ?? rolePill.EMPLOYEE;
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: '#f8fafc', display: 'flex', flexDirection: 'column' }}>
       <ThreeBackground />
 
       {/* ── Navbar ── */}
       <nav style={{
         position: 'sticky', top: 0, zIndex: 50,
-        background: 'rgba(8, 12, 24, 0.85)',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        background: 'rgba(255,255,255,0.9)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        borderBottom: '1px solid #e2e8f0',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
       }}>
-        {/* Three-column grid: logo | center links | user */}
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem', height: '60px', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: '1rem' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem', height: '58px', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: '1rem' }}>
 
           {/* Left — Logo */}
           <Link to="/my-goals" style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', textDecoration: 'none' }}>
-            {/* SVG Logo mark */}
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="30" height="30" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="logoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#6366f1"/>
-                  <stop offset="100%" stopColor="#06b6d4"/>
+                  <stop offset="0%" stopColor="#4f46e5"/>
+                  <stop offset="100%" stopColor="#7c3aed"/>
                 </linearGradient>
               </defs>
               <rect width="32" height="32" rx="9" fill="url(#logoGrad)"/>
@@ -67,13 +66,13 @@ export default function Layout() {
               <line x1="23" y1="16" x2="28" y2="16" stroke="white" strokeWidth="2" strokeLinecap="round"/>
             </svg>
             <div>
-              <div style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#f1f5f9', lineHeight: 1.1, letterSpacing: '-0.01em' }}>AtomQuest</div>
-              <div style={{ fontSize: '0.6rem', color: '#6366f1', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Goals Portal</div>
+              <div style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.1, letterSpacing: '-0.02em' }}>AtomQuest</div>
+              <div style={{ fontSize: '0.6rem', color: '#4f46e5', fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase' }}>Goals Portal</div>
             </div>
           </Link>
 
           {/* Center — Nav links */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.125rem' }}>
             {navLinks.map((l) => {
               const active = pathname.startsWith(l.to);
               return (
@@ -82,19 +81,18 @@ export default function Layout() {
                   to={l.to}
                   style={{
                     display: 'flex', alignItems: 'center',
-                    padding: '0.4rem 0.875rem',
-                    borderRadius: '8px',
+                    padding: '0.375rem 0.875rem',
+                    borderRadius: '7px',
                     fontSize: '0.8125rem',
                     fontWeight: active ? 600 : 500,
-                    color: active ? '#c7d2fe' : '#94a3b8',
-                    background: active ? 'rgba(99,102,241,0.15)' : 'transparent',
-                    border: `1px solid ${active ? 'rgba(99,102,241,0.3)' : 'transparent'}`,
+                    color: active ? '#4f46e5' : '#475569',
+                    background: active ? '#eef2ff' : 'transparent',
                     textDecoration: 'none',
-                    transition: 'all 0.15s',
+                    transition: 'all 0.13s',
                     whiteSpace: 'nowrap',
                   }}
-                  onMouseEnter={(e) => { if (!active) { (e.currentTarget as HTMLElement).style.color = '#c7d2fe'; (e.currentTarget as HTMLElement).style.background = 'rgba(99,102,241,0.08)'; } }}
-                  onMouseLeave={(e) => { if (!active) { (e.currentTarget as HTMLElement).style.color = '#94a3b8'; (e.currentTarget as HTMLElement).style.background = 'transparent'; } }}
+                  onMouseEnter={(e) => { if (!active) { (e.currentTarget as HTMLElement).style.color = '#4f46e5'; (e.currentTarget as HTMLElement).style.background = '#f5f3ff'; } }}
+                  onMouseLeave={(e) => { if (!active) { (e.currentTarget as HTMLElement).style.color = '#475569'; (e.currentTarget as HTMLElement).style.background = 'transparent'; } }}
                 >
                   {l.label}
                 </Link>
@@ -103,29 +101,26 @@ export default function Layout() {
           </div>
 
           {/* Right — User info */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', justifyContent: 'flex-end' }}>
-            {/* Avatar + name */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', justifyContent: 'flex-end' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700, color: 'white', flexShrink: 0 }}>
+              <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700, color: 'white', flexShrink: 0 }}>
                 {user.name[0].toUpperCase()}
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.2 }}>
-                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#e2e8f0' }}>{user.name}</span>
-                <span style={{ fontSize: '0.65rem', color: '#64748b' }}>{user.email}</span>
+              <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.25 }}>
+                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#0f172a' }}>{user.name}</span>
+                <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>{user.email}</span>
               </div>
             </div>
 
-            {/* Role badge */}
-            <span style={{ fontSize: '0.65rem', fontWeight: 700, padding: '0.2rem 0.6rem', borderRadius: '999px', background: rs.bg, color: rs.color, border: `1px solid ${rs.border}`, letterSpacing: '0.04em', textTransform: 'uppercase', flexShrink: 0 }}>
+            <span style={{ fontSize: '0.65rem', fontWeight: 700, padding: '0.2rem 0.55rem', borderRadius: '999px', background: rp.bg, color: rp.color, border: `1px solid ${rp.border}`, letterSpacing: '0.04em', textTransform: 'uppercase', flexShrink: 0 }}>
               {user.role}
             </span>
 
-            {/* Sign out */}
             <button
               onClick={logout}
-              style={{ fontSize: '0.75rem', fontWeight: 500, padding: '0.35rem 0.75rem', borderRadius: '8px', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', color: '#64748b', cursor: 'pointer', transition: 'all 0.15s', flexShrink: 0 }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#fca5a5'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(239,68,68,0.4)'; (e.currentTarget as HTMLElement).style.background = 'rgba(239,68,68,0.08)'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#64748b'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.1)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+              style={{ fontSize: '0.75rem', fontWeight: 500, padding: '0.35rem 0.75rem', borderRadius: '7px', background: 'transparent', border: '1px solid #e2e8f0', color: '#94a3b8', cursor: 'pointer', transition: 'all 0.13s', flexShrink: 0, fontFamily: 'inherit' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#dc2626'; (e.currentTarget as HTMLElement).style.borderColor = '#fecaca'; (e.currentTarget as HTMLElement).style.background = '#fef2f2'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#94a3b8'; (e.currentTarget as HTMLElement).style.borderColor = '#e2e8f0'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
             >
               Sign out
             </button>
@@ -139,7 +134,6 @@ export default function Layout() {
       </main>
 
       <Footer />
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }

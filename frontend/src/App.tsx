@@ -4,6 +4,8 @@ import { AuthProvider } from './store/auth';
 import { CycleProvider } from './store/cycle';
 import Layout from './components/Layout';
 import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import HelpPage from './pages/HelpPage';
 import MyGoalsPage from './pages/MyGoalsPage';
 import TeamPage from './pages/TeamPage';
 import AdminPage from './pages/AdminPage';
@@ -20,12 +22,14 @@ export default function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
               <Route element={<Layout />}>
                 <Route path="/my-goals" element={<MyGoalsPage />} />
                 <Route path="/team" element={<TeamPage />} />
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="/audit" element={<AuditPage />} />
                 <Route path="/analytics" element={<AnalyticsPage />} />
+                <Route path="/help" element={<HelpPage />} />
                 <Route path="*" element={<Navigate to="/my-goals" replace />} />
               </Route>
             </Routes>

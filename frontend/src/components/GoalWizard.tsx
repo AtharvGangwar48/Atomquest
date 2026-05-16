@@ -24,14 +24,24 @@ type FormData = z.infer<typeof schema>;
 
 const STEPS = ['Thrust Area', 'Goal Details', 'Targets', 'Review'];
 
-const S = {
-  overlay:  { position: 'fixed' as const, inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem' },
-  modal:    { background: 'rgba(13,18,35,0.95)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: '20px', width: '100%', maxWidth: '520px', padding: '1.75rem', boxShadow: '0 0 60px rgba(99,102,241,0.15)' },
-  label:    { display: 'block' as const, fontSize: '0.75rem', fontWeight: 600, color: '#94a3b8', marginBottom: '0.375rem', textTransform: 'uppercase' as const, letterSpacing: '0.04em' },
-  input:    { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '0.6rem 0.875rem', fontSize: '0.875rem', color: '#e2e8f0', outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.2s, box-shadow 0.2s' },
-  select:   { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '0.6rem 0.875rem', fontSize: '0.875rem', color: '#e2e8f0', outline: 'none', fontFamily: 'inherit', cursor: 'pointer' },
-  error:    { color: '#f87171', fontSize: '0.7rem', marginTop: '0.25rem' },
-  row:      { display: 'flex' as const, justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem 0', borderBottom: '1px solid rgba(255,255,255,0.05)' },
+const inputStyle: React.CSSProperties = {
+  width: '100%', background: '#ffffff', border: '1px solid #e2e8f0',
+  borderRadius: '8px', padding: '0.6rem 0.875rem', fontSize: '0.875rem',
+  color: '#0f172a', outline: 'none', fontFamily: 'inherit',
+  transition: 'border-color 0.15s, box-shadow 0.15s',
+};
+const labelStyle: React.CSSProperties = {
+  display: 'block', fontSize: '0.75rem', fontWeight: 600,
+  color: '#374151', marginBottom: '0.375rem',
+};
+
+const focusStyle = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  (e.target as HTMLElement).style.borderColor = '#4f46e5';
+  (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(79,70,229,0.1)';
+};
+const blurStyle = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  (e.target as HTMLElement).style.borderColor = '#e2e8f0';
+  (e.target as HTMLElement).style.boxShadow = 'none';
 };
 
 export default function GoalWizard({ sheetId, existingGoals, onClose }: { sheetId: string; existingGoals: Goal[]; onClose: () => void }) {
@@ -59,27 +69,26 @@ export default function GoalWizard({ sheetId, existingGoals, onClose }: { sheetI
   const stepFields: (keyof FormData)[][] = [['thrustArea'], ['title', 'description'], ['uomType', 'scoringType', 'target', 'weightage'], []];
   const next = async () => { const ok = await trigger(stepFields[step] as (keyof FormData)[]); if (ok) setStep((s) => s + 1); };
 
-  const focusStyle = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    (e.target as HTMLElement).style.borderColor = '#6366f1';
-    (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(99,102,241,0.15)';
-  };
-  const blurStyle = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    (e.target as HTMLElement).style.borderColor = 'rgba(255,255,255,0.1)';
-    (e.target as HTMLElement).style.boxShadow = 'none';
-  };
-
   return (
-    <div style={S.overlay}>
-      <div style={S.modal}>
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.35)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem' }}>
+      <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '18px', width: '100%', maxWidth: '520px', padding: '1.75rem', boxShadow: '0 20px 60px rgba(0,0,0,0.12)', animation: 'fadeIn 0.2s ease-out' }}>
+
         {/* Step indicator */}
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.75rem', gap: '0.375rem' }}>
           {STEPS.map((s, i) => (
-            <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: 1 }}>
-              <div style={{ width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', fontWeight: 700, flexShrink: 0, background: i < step ? '#6366f1' : i === step ? 'linear-gradient(135deg,#6366f1,#06b6d4)' : 'rgba(255,255,255,0.06)', color: i <= step ? 'white' : '#64748b', border: i === step ? 'none' : `1px solid ${i < step ? '#6366f1' : 'rgba(255,255,255,0.1)'}`, boxShadow: i === step ? '0 0 12px rgba(99,102,241,0.5)' : 'none' }}>
+            <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', flex: 1 }}>
+              <div style={{
+                width: '28px', height: '28px', borderRadius: '50%',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '0.7rem', fontWeight: 700, flexShrink: 0,
+                background: i < step ? '#4f46e5' : i === step ? '#4f46e5' : '#f1f5f9',
+                color: i <= step ? 'white' : '#94a3b8',
+                boxShadow: i === step ? '0 0 0 4px rgba(79,70,229,0.12)' : 'none',
+              }}>
                 {i < step ? '✓' : i + 1}
               </div>
-              <span style={{ fontSize: '0.7rem', fontWeight: i === step ? 600 : 400, color: i === step ? '#a5b4fc' : '#475569', display: 'none', whiteSpace: 'nowrap' }} className="sm-show">{s}</span>
-              {i < STEPS.length - 1 && <div style={{ flex: 1, height: '1px', background: i < step ? '#6366f1' : 'rgba(255,255,255,0.07)' }} />}
+              <span style={{ fontSize: '0.7rem', fontWeight: i === step ? 600 : 400, color: i === step ? '#4f46e5' : '#94a3b8', whiteSpace: 'nowrap', display: 'none' }}>{s}</span>
+              {i < STEPS.length - 1 && <div style={{ flex: 1, height: '2px', background: i < step ? '#4f46e5' : '#f1f5f9', borderRadius: '1px' }} />}
             </div>
           ))}
         </div>
@@ -88,16 +97,19 @@ export default function GoalWizard({ sheetId, existingGoals, onClose }: { sheetI
           {/* Step 0 */}
           {step === 0 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <h2 style={{ fontSize: '1rem', fontWeight: 700, color: '#e2e8f0', margin: 0 }}>Select Thrust Area</h2>
               <div>
-                <label style={S.label}>Thrust Area *</label>
-                <select {...register('thrustArea')} style={S.select} onFocus={focusStyle} onBlur={blurStyle}>
-                  <option value="" style={{ background: '#0d1526' }}>Select…</option>
+                <h2 style={{ fontSize: '1.0625rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.25rem' }}>Select Thrust Area</h2>
+                <p style={{ fontSize: '0.8125rem', color: '#94a3b8', margin: 0 }}>Choose the strategic area this goal belongs to.</p>
+              </div>
+              <div>
+                <label style={labelStyle}>Thrust Area *</label>
+                <select {...register('thrustArea')} style={inputStyle} onFocus={focusStyle} onBlur={blurStyle}>
+                  <option value="">Select…</option>
                   {['Revenue Growth', 'Customer Success', 'Operational Excellence', 'People & Culture', 'Innovation', 'Compliance'].map((a) => (
-                    <option key={a} value={a} style={{ background: '#0d1526' }}>{a}</option>
+                    <option key={a} value={a}>{a}</option>
                   ))}
                 </select>
-                {errors.thrustArea && <p style={S.error}>{errors.thrustArea.message}</p>}
+                {errors.thrustArea && <p style={{ color: '#dc2626', fontSize: '0.7rem', marginTop: '0.25rem' }}>{errors.thrustArea.message}</p>}
               </div>
             </div>
           )}
@@ -105,18 +117,21 @@ export default function GoalWizard({ sheetId, existingGoals, onClose }: { sheetI
           {/* Step 1 */}
           {step === 1 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <h2 style={{ fontSize: '1rem', fontWeight: 700, color: '#e2e8f0', margin: 0 }}>Goal Details</h2>
               <div>
-                <label style={S.label}>Title *</label>
-                <input {...register('title')} style={S.input} onFocus={focusStyle} onBlur={blurStyle} />
-                {errors.title && <p style={S.error}>{errors.title.message}</p>}
+                <h2 style={{ fontSize: '1.0625rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.25rem' }}>Goal Details</h2>
+                <p style={{ fontSize: '0.8125rem', color: '#94a3b8', margin: 0 }}>Define your goal clearly and concisely.</p>
               </div>
               <div>
-                <label style={S.label}>Description</label>
-                <textarea {...register('description')} rows={3} style={{ ...S.input, resize: 'none' }} onFocus={focusStyle} onBlur={blurStyle} />
+                <label style={labelStyle}>Title *</label>
+                <input {...register('title')} style={inputStyle} placeholder="e.g. Increase quarterly revenue by 20%" onFocus={focusStyle} onBlur={blurStyle} />
+                {errors.title && <p style={{ color: '#dc2626', fontSize: '0.7rem', marginTop: '0.25rem' }}>{errors.title.message}</p>}
               </div>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.8rem', color: '#94a3b8' }}>
-                <input {...register('isShared')} type="checkbox" style={{ accentColor: '#6366f1' }} />
+              <div>
+                <label style={labelStyle}>Description</label>
+                <textarea {...register('description')} rows={3} style={{ ...inputStyle, resize: 'none' }} placeholder="Optional context or details…" onFocus={focusStyle} onBlur={blurStyle} />
+              </div>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.8125rem', color: '#475569', padding: '0.5rem 0.75rem', borderRadius: '8px', background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+                <input {...register('isShared')} type="checkbox" style={{ accentColor: '#4f46e5', width: '14px', height: '14px' }} />
                 This is a shared goal
               </label>
             </div>
@@ -125,48 +140,54 @@ export default function GoalWizard({ sheetId, existingGoals, onClose }: { sheetI
           {/* Step 2 */}
           {step === 2 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <h2 style={{ fontSize: '1rem', fontWeight: 700, color: '#e2e8f0', margin: 0 }}>Set Targets</h2>
+              <div>
+                <h2 style={{ fontSize: '1.0625rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.25rem' }}>Set Targets</h2>
+                <p style={{ fontSize: '0.8125rem', color: '#94a3b8', margin: 0 }}>Define how success will be measured.</p>
+              </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                 <div>
-                  <label style={S.label}>Unit of Measure *</label>
-                  <select {...register('uomType')} style={S.select} onFocus={focusStyle} onBlur={blurStyle}>
-                    {[['NUMBER','Number'],['PERCENTAGE','Percentage'],['CURRENCY','Currency'],['BOOLEAN','Yes/No']].map(([v,l]) => <option key={v} value={v} style={{ background: '#0d1526' }}>{l}</option>)}
+                  <label style={labelStyle}>Unit of Measure *</label>
+                  <select {...register('uomType')} style={inputStyle} onFocus={focusStyle} onBlur={blurStyle}>
+                    {[['NUMBER','Number'],['PERCENTAGE','Percentage'],['CURRENCY','Currency'],['BOOLEAN','Yes / No']].map(([v,l]) => <option key={v} value={v}>{l}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label style={S.label}>Scoring Type *</label>
-                  <select {...register('scoringType')} style={S.select} onFocus={focusStyle} onBlur={blurStyle}>
-                    {[['MAX','MAX — higher is better'],['MIN','MIN — lower is better'],['TIMELINE','TIMELINE — by deadline'],['ZERO','ZERO — stay at zero']].map(([v,l]) => <option key={v} value={v} style={{ background: '#0d1526' }}>{l}</option>)}
+                  <label style={labelStyle}>Scoring Type *</label>
+                  <select {...register('scoringType')} style={inputStyle} onFocus={focusStyle} onBlur={blurStyle}>
+                    {[['MAX','MAX — higher is better'],['MIN','MIN — lower is better'],['TIMELINE','TIMELINE — by deadline'],['ZERO','ZERO — stay at zero']].map(([v,l]) => <option key={v} value={v}>{l}</option>)}
                   </select>
                 </div>
               </div>
               {watchedScoringType === 'TIMELINE' && (
                 <div>
-                  <label style={S.label}>Deadline</label>
-                  <input {...register('deadline')} type="date" style={{ ...S.input, colorScheme: 'dark' }} onFocus={focusStyle} onBlur={blurStyle} />
+                  <label style={labelStyle}>Deadline</label>
+                  <input {...register('deadline')} type="date" style={inputStyle} onFocus={focusStyle} onBlur={blurStyle} />
                 </div>
               )}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                 <div>
-                  <label style={S.label}>Target Value *</label>
-                  <input {...register('target')} type="number" step="any" style={S.input} onFocus={focusStyle} onBlur={blurStyle} />
-                  {errors.target && <p style={S.error}>{errors.target.message}</p>}
+                  <label style={labelStyle}>Target Value *</label>
+                  <input {...register('target')} type="number" step="any" style={inputStyle} onFocus={focusStyle} onBlur={blurStyle} />
+                  {errors.target && <p style={{ color: '#dc2626', fontSize: '0.7rem', marginTop: '0.25rem' }}>{errors.target.message}</p>}
                 </div>
                 <div>
-                  <label style={S.label}>Weightage (%) *</label>
-                  <input {...register('weightage')} type="number" step="0.1" min="0.1" max="100" style={S.input} onFocus={focusStyle} onBlur={blurStyle} />
-                  {errors.weightage && <p style={S.error}>{errors.weightage.message}</p>}
+                  <label style={labelStyle}>Weightage (%) *</label>
+                  <input {...register('weightage')} type="number" step="0.1" min="0.1" max="100" style={inputStyle} onFocus={focusStyle} onBlur={blurStyle} />
+                  {errors.weightage && <p style={{ color: '#dc2626', fontSize: '0.7rem', marginTop: '0.25rem' }}>{errors.weightage.message}</p>}
                 </div>
               </div>
               <WeightageMeter current={usedWeightage} adding={Number(watchedWeightage) || 0} />
             </div>
           )}
 
-          {/* Step 3 */}
+          {/* Step 3 — Review */}
           {step === 3 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <h2 style={{ fontSize: '1rem', fontWeight: 700, color: '#e2e8f0', margin: 0 }}>Review & Submit</h2>
-              <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '12px', padding: '1rem' }}>
+              <div>
+                <h2 style={{ fontSize: '1.0625rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.25rem' }}>Review & Submit</h2>
+                <p style={{ fontSize: '0.8125rem', color: '#94a3b8', margin: 0 }}>Confirm the details before creating your goal.</p>
+              </div>
+              <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', overflow: 'hidden' }}>
                 {[
                   ['Thrust Area', values.thrustArea],
                   ['Title', values.title],
@@ -177,27 +198,31 @@ export default function GoalWizard({ sheetId, existingGoals, onClose }: { sheetI
                   ...(values.deadline ? [['Deadline', values.deadline]] : []),
                   ['Weightage', `${values.weightage}%`],
                   ['Shared', values.isShared ? 'Yes' : 'No'],
-                ].map(([k, v]) => (
-                  <div key={String(k)} style={S.row}>
-                    <span style={{ fontSize: '0.775rem', color: '#64748b' }}>{k}</span>
-                    <span style={{ fontSize: '0.775rem', fontWeight: 600, color: '#e2e8f0' }}>{String(v)}</span>
+                ].map(([k, v], idx) => (
+                  <div key={String(k)} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.6rem 0.875rem', borderBottom: idx < 7 ? '1px solid #f1f5f9' : 'none' }}>
+                    <span style={{ fontSize: '0.775rem', color: '#64748b', fontWeight: 500 }}>{k}</span>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#0f172a' }}>{String(v)}</span>
                   </div>
                 ))}
               </div>
-              {mutation.isError && <p style={{ ...S.error, padding: '0.5rem 0.75rem', background: 'rgba(239,68,68,0.1)', borderRadius: '8px', border: '1px solid rgba(239,68,68,0.25)' }}>Failed to create goal. Check weightage total.</p>}
+              {mutation.isError && (
+                <div style={{ padding: '0.625rem 0.875rem', borderRadius: '8px', background: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', fontSize: '0.8125rem' }}>
+                  Failed to create goal. Check weightage total doesn't exceed 100%.
+                </div>
+              )}
             </div>
           )}
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1.5rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1.75rem', paddingTop: '1.25rem', borderTop: '1px solid #f1f5f9' }}>
             <button type="button" onClick={step === 0 ? onClose : () => setStep((s) => s - 1)}
-              style={{ fontSize: '0.8rem', fontWeight: 500, color: '#64748b', background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem 0.75rem' }}>
+              className="btn-ghost" style={{ fontSize: '0.8125rem' }}>
               {step === 0 ? 'Cancel' : '← Back'}
             </button>
             {step < 3 ? (
-              <button type="button" onClick={next} className="btn-primary">Next →</button>
+              <button type="button" onClick={next} className="btn-primary">Continue →</button>
             ) : (
               <button type="submit" disabled={mutation.isPending} className="btn-success">
-                {mutation.isPending ? 'Saving…' : 'Create Goal'}
+                {mutation.isPending ? 'Creating…' : 'Create Goal'}
               </button>
             )}
           </div>

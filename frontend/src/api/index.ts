@@ -5,6 +5,9 @@ import type { AuthTokens, GoalSheet, User, CheckinComment, CycleWindow, Quarterl
 export const login = (email: string, password: string) =>
   api.post<AuthTokens>('/auth/login', { email, password }).then((r) => r.data);
 
+export const signup = (data: { companyName: string; industry?: string; name: string; email: string; password: string }) =>
+  api.post<AuthTokens>('/auth/signup', data).then((r) => r.data);
+
 // Users
 export const getMe = () => api.get<User>('/users/me').then((r) => r.data);
 export const getUsers = () => api.get<User[]>('/users').then((r) => r.data);

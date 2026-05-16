@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { login, refresh } from '../controllers/auth.controller';
+import { login, refresh, signup } from '../controllers/auth.controller';
 import { authenticate, requireRole } from '../middleware/auth.middleware';
 import { guardApprovedSheet } from '../middleware/stateMachine.middleware';
 import { createSheet, getMySheets, getSheetById, transitionSheet, getTeamSheets, getSheetScore } from '../controllers/sheet.controller';
@@ -19,6 +19,7 @@ const router = Router();
 router.post('/auth/login', login);
 router.post('/auth/refresh', refresh);
 router.post('/auth/azure', azureLogin);
+router.post('/auth/signup', signup);
 
 // Users
 router.get('/users/me', authenticate, getMe);

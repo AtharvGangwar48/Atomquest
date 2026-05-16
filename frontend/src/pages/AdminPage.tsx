@@ -7,13 +7,23 @@ import { getDashboard, downloadAchievementReport, upsertCycleConfig, getCycleCon
 import type { DashboardEmployee, GoalSheet } from '../types';
 import StatusBadge from '../components/StatusBadge';
 
-const C = { card: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.08)', borderAccent: 'rgba(99,102,241,0.3)', text: '#e2e8f0', sub: '#94a3b8', muted: '#64748b', purple: '#6366f1', green: '#10b981', amber: '#f59e0b', red: '#ef4444', cyan: '#06b6d4' };
-const IS = {
-  input:  { width: '100%', background: 'rgba(255,255,255,0.05)', border: `1px solid ${C.border}`, borderRadius: '10px', padding: '0.55rem 0.875rem', fontSize: '0.8125rem', color: C.text, outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.2s, box-shadow 0.2s' },
-  label:  { display: 'block' as const, fontSize: '0.7rem', fontWeight: 600, color: C.sub, marginBottom: '0.35rem', textTransform: 'uppercase' as const, letterSpacing: '0.04em' },
+const inputStyle: React.CSSProperties = {
+  width: '100%', background: '#ffffff', border: '1px solid #e2e8f0',
+  borderRadius: '8px', padding: '0.55rem 0.875rem', fontSize: '0.8125rem',
+  color: '#0f172a', outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.15s, box-shadow 0.15s',
 };
-const focus = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => { (e.target as HTMLElement).style.borderColor = C.purple; (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(99,102,241,0.15)'; };
-const blur  = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => { (e.target as HTMLElement).style.borderColor = C.border; (e.target as HTMLElement).style.boxShadow = 'none'; };
+const labelStyle: React.CSSProperties = {
+  display: 'block', fontSize: '0.7rem', fontWeight: 600, color: '#374151',
+  marginBottom: '0.35rem', textTransform: 'uppercase', letterSpacing: '0.04em',
+};
+const focus = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  (e.target as HTMLElement).style.borderColor = '#4f46e5';
+  (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(79,70,229,0.1)';
+};
+const blur  = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  (e.target as HTMLElement).style.borderColor = '#e2e8f0';
+  (e.target as HTMLElement).style.boxShadow = 'none';
+};
 
 const num = () => z.coerce.number();
 const MONTH_NAMES = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -41,48 +51,49 @@ function CycleConfigSection() {
   });
 
   return (
-    <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: '16px', padding: '1.5rem' }}>
-      <h2 style={{ fontSize: '1rem', fontWeight: 700, color: C.text, margin: '0 0 1.25rem' }}>Cycle Configuration</h2>
+    <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '1.5rem', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+      <h2 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', margin: '0 0 1.25rem' }}>Cycle Configuration</h2>
       <form onSubmit={handleSubmit((d) => mutation.mutate(d))}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.875rem', marginBottom: '1rem' }}>
-          {[['Cycle Year','cycleYear'],['Goal Setting (month)','goalSettingStart'],['Q1 Start (month)','q1Start'],['Q2 Start (month)','q2Start'],['Q3 Start (month)','q3Start'],['Q4 Start (month)','q4Start']].map(([label, key]) => (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '0.875rem', marginBottom: '1rem' }}>
+          {[['Cycle Year','cycleYear'],['Goal Setting (month)','goalSettingStart'],['Q1 Start','q1Start'],['Q2 Start','q2Start'],['Q3 Start','q3Start'],['Q4 Start','q4Start']].map(([label, key]) => (
             <div key={key}>
-              <label style={IS.label}>{label}</label>
-              <input {...register(key as keyof CycleForm)} type="number" style={IS.input} onFocus={focus} onBlur={blur} />
-              {errors[key as keyof CycleForm] && <p style={{ color: '#f87171', fontSize: '0.65rem', marginTop: '0.2rem' }}>{errors[key as keyof CycleForm]?.message}</p>}
+              <label style={labelStyle}>{label}</label>
+              <input {...register(key as keyof CycleForm)} type="number" style={inputStyle} onFocus={focus} onBlur={blur} />
+              {errors[key as keyof CycleForm] && <p style={{ color: '#dc2626', fontSize: '0.65rem', marginTop: '0.2rem' }}>{errors[key as keyof CycleForm]?.message}</p>}
             </div>
           ))}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <button type="submit" disabled={isSubmitting || mutation.isPending} className="btn-primary">{mutation.isPending ? 'Saving…' : 'Save Config'}</button>
-          {mutation.isSuccess && <span style={{ fontSize: '0.8rem', color: C.green }}>Saved ✓</span>}
+          <button type="submit" disabled={isSubmitting || mutation.isPending} className="btn-primary" style={{ fontSize: '0.8125rem' }}>
+            {mutation.isPending ? 'Saving…' : 'Save Config'}
+          </button>
+          {mutation.isSuccess && <span style={{ fontSize: '0.8rem', color: '#059669', fontWeight: 600 }}>✓ Saved</span>}
         </div>
       </form>
 
       {configs.length > 0 && (
-        <div style={{ marginTop: '1.25rem' }}>
-          <p style={{ fontSize: '0.65rem', fontWeight: 700, color: C.muted, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '0.625rem' }}>Existing Configs</p>
-          <div style={{ overflowX: 'auto' }}>
+        <div style={{ marginTop: '1.5rem' }}>
+          <p style={{ fontSize: '0.6875rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '0.75rem', margin: '0 0 0.75rem' }}>Existing Configs <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: '#cbd5e1' }}>— click row to load</span></p>
+          <div style={{ border: '1px solid #e2e8f0', borderRadius: '10px', overflow: 'hidden' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
               <thead>
-                <tr style={{ borderBottom: `1px solid ${C.border}` }}>
-                  {['Year','Goal Setting','Q1','Q2','Q3','Q4'].map((h) => <th key={h} style={{ padding: '0.5rem 0.75rem', textAlign: 'left', fontSize: '0.65rem', fontWeight: 700, color: C.muted, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>)}
+                <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+                  {['Year','Goal Setting','Q1','Q2','Q3','Q4'].map((h) => <th key={h} style={{ padding: '0.5rem 0.75rem', textAlign: 'left', fontSize: '0.65rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>)}
                 </tr>
               </thead>
               <tbody>
                 {(configs as CycleForm[]).map((c) => (
-                  <tr key={c.cycleYear} style={{ borderBottom: `1px solid rgba(255,255,255,0.03)`, cursor: 'pointer' }} onClick={() => reset(c)}
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = 'rgba(99,102,241,0.05)'; }}
+                  <tr key={c.cycleYear} style={{ borderBottom: '1px solid #f8fafc', cursor: 'pointer', transition: 'background 0.13s' }} onClick={() => reset(c)}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#fafbff'; }}
                     onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                   >
-                    <td style={{ padding: '0.5rem 0.75rem', fontWeight: 600, color: C.text }}>{c.cycleYear}</td>
-                    {[c.goalSettingStart, c.q1Start, c.q2Start, c.q3Start, c.q4Start].map((v, i) => <td key={i} style={{ padding: '0.5rem 0.75rem', color: C.sub }}>{MONTH_NAMES[v]}</td>)}
+                    <td style={{ padding: '0.5rem 0.75rem', fontWeight: 700, color: '#0f172a' }}>{c.cycleYear}</td>
+                    {[c.goalSettingStart, c.q1Start, c.q2Start, c.q3Start, c.q4Start].map((v, i) => <td key={i} style={{ padding: '0.5rem 0.75rem', color: '#475569' }}>{MONTH_NAMES[v]}</td>)}
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <p style={{ fontSize: '0.65rem', color: C.muted, marginTop: '0.375rem' }}>Click a row to load it into the form.</p>
         </div>
       )}
     </div>
@@ -99,27 +110,27 @@ function UnlockModal({ sheet, onClose }: { sheet: GoalSheet; onClose: () => void
   });
 
   return (
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem' }}>
-      <div style={{ background: 'rgba(13,18,35,0.97)', border: '1px solid rgba(245,158,11,0.3)', borderRadius: '18px', width: '100%', maxWidth: '440px', padding: '1.75rem', boxShadow: '0 0 50px rgba(245,158,11,0.1)' }}>
-        <h2 style={{ fontSize: '1rem', fontWeight: 700, color: C.text, margin: '0 0 0.25rem' }}>Unlock Sheet for Editing</h2>
-        <p style={{ fontSize: '0.8rem', color: C.muted, margin: '0 0 1.25rem' }}><span style={{ color: C.sub, fontWeight: 600 }}>{sheet.employee?.name}</span> — {sheet.cycleYear}</p>
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem' }}>
+      <div style={{ background: '#ffffff', border: '1px solid #fde68a', borderRadius: '16px', width: '100%', maxWidth: '440px', padding: '1.75rem', boxShadow: '0 20px 60px rgba(0,0,0,0.12)', animation: 'fadeIn 0.2s ease-out' }}>
+        <h2 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.25rem' }}>Unlock Sheet for Editing</h2>
+        <p style={{ fontSize: '0.8rem', color: '#64748b', margin: '0 0 1.25rem' }}><span style={{ color: '#0f172a', fontWeight: 600 }}>{sheet.employee?.name}</span> — {sheet.cycleYear}</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div>
-            <label style={IS.label}>Justification *</label>
+            <label style={labelStyle}>Justification *</label>
             <textarea value={justification} onChange={(e) => setJustification(e.target.value)} rows={3}
               placeholder="Reason for unlocking this approved sheet…"
-              style={{ ...IS.input, resize: 'none' }} onFocus={focus} onBlur={blur} />
-            {justification.length > 0 && justification.length < 10 && <p style={{ color: '#f87171', fontSize: '0.7rem', marginTop: '0.25rem' }}>Must be at least 10 characters</p>}
+              style={{ ...inputStyle, resize: 'none' }} onFocus={focus} onBlur={blur} />
+            {justification.length > 0 && justification.length < 10 && <p style={{ color: '#dc2626', fontSize: '0.7rem', marginTop: '0.25rem' }}>Must be at least 10 characters</p>}
           </div>
           <div>
-            <label style={IS.label}>Unlock Duration (hours)</label>
-            <input type="number" min={1} max={168} value={hours} onChange={(e) => setHours(Number(e.target.value))} style={IS.input} onFocus={focus} onBlur={blur} />
+            <label style={labelStyle}>Unlock Duration (hours)</label>
+            <input type="number" min={1} max={168} value={hours} onChange={(e) => setHours(Number(e.target.value))} style={inputStyle} onFocus={focus} onBlur={blur} />
           </div>
-          {mutation.isError && <p style={{ color: '#f87171', fontSize: '0.8rem' }}>Failed to unlock sheet.</p>}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.625rem' }}>
-            <button onClick={onClose} style={{ fontSize: '0.8rem', color: C.muted, background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem 0.75rem' }}>Cancel</button>
+          {mutation.isError && <p style={{ color: '#dc2626', fontSize: '0.8rem' }}>Failed to unlock sheet.</p>}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.625rem', paddingTop: '0.5rem', borderTop: '1px solid #f1f5f9' }}>
+            <button onClick={onClose} className="btn-ghost" style={{ fontSize: '0.8rem' }}>Cancel</button>
             <button onClick={() => mutation.mutate()} disabled={justification.length < 10 || mutation.isPending}
-              style={{ fontSize: '0.8rem', fontWeight: 600, padding: '0.5rem 1.25rem', borderRadius: '10px', background: 'linear-gradient(135deg,#f59e0b,#d97706)', color: 'white', border: 'none', cursor: 'pointer', opacity: justification.length < 10 ? 0.5 : 1 }}>
+              style={{ fontSize: '0.8rem', fontWeight: 600, padding: '0.5rem 1.25rem', borderRadius: '8px', background: justification.length >= 10 ? '#d97706' : '#f3f4f6', color: justification.length >= 10 ? 'white' : '#9ca3af', border: 'none', cursor: justification.length >= 10 ? 'pointer' : 'not-allowed', fontFamily: 'inherit', transition: 'all 0.13s' }}>
               {mutation.isPending ? 'Unlocking…' : 'Unlock Sheet'}
             </button>
           </div>
@@ -148,75 +159,84 @@ function DashboardSection() {
   };
 
   const statCards = dashboard ? [
-    { label: 'Employees',   value: dashboard.totals.totalEmployees,  color: C.text },
-    { label: 'Approved',    value: dashboard.totals.sheetsApproved,  color: C.green },
-    { label: 'Submitted',   value: dashboard.totals.sheetsSubmitted, color: '#a5b4fc' },
-    { label: 'Draft/Rework',value: dashboard.totals.sheetsDraft,     color: C.amber },
-    { label: 'Avg Score',   value: `${dashboard.totals.avgScore}%`,  color: C.cyan },
+    { label: 'Employees',    value: dashboard.totals.totalEmployees,  color: '#0f172a',  bg: '#f8fafc', border: '#e2e8f0' },
+    { label: 'Approved',     value: dashboard.totals.sheetsApproved,  color: '#059669',  bg: '#ecfdf5', border: '#a7f3d0' },
+    { label: 'Submitted',    value: dashboard.totals.sheetsSubmitted, color: '#4338ca',  bg: '#eef2ff', border: '#c7d2fe' },
+    { label: 'Draft / Rework',value: dashboard.totals.sheetsDraft,    color: '#d97706',  bg: '#fffbeb', border: '#fde68a' },
+    { label: 'Avg Score',    value: `${dashboard.totals.avgScore}%`,  color: '#1d4ed8',  bg: '#eff6ff', border: '#bfdbfe' },
   ] : [];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <h2 style={{ fontSize: '1rem', fontWeight: 700, color: C.text, margin: 0 }}>Completion Dashboard</h2>
+          <h2 style={{ fontSize: '1.0625rem', fontWeight: 700, color: '#0f172a', margin: 0 }}>Completion Dashboard</h2>
           <select value={cycleYear} onChange={(e) => setCycleYear(Number(e.target.value))}
-            style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${C.border}`, borderRadius: '8px', padding: '0.35rem 0.75rem', fontSize: '0.8rem', color: C.text, outline: 'none', cursor: 'pointer' }}>
-            {[2024, 2025, 2026].map((y) => <option key={y} style={{ background: '#0d1526' }}>{y}</option>)}
+            style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '7px', padding: '0.35rem 0.75rem', fontSize: '0.8rem', color: '#0f172a', outline: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>
+            {[2024, 2025, 2026].map((y) => <option key={y}>{y}</option>)}
           </select>
         </div>
-        <button onClick={handleExport} disabled={downloading} className="btn-success" style={{ fontSize: '0.8rem' }}>
+        <button onClick={handleExport} disabled={downloading} className="btn-success" style={{ fontSize: '0.8125rem' }}>
           {downloading ? 'Generating…' : '↓ Export Excel'}
         </button>
       </div>
 
-      {isLoading ? <div style={{ color: C.muted, fontSize: '0.875rem' }}>Loading…</div> : dashboard ? (
+      {isLoading ? (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#94a3b8', fontSize: '0.875rem' }}>
+          <div style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid #e2e8f0', borderTopColor: '#4f46e5', animation: 'spin 0.7s linear infinite' }} />
+          Loading…
+        </div>
+      ) : dashboard ? (
         <>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.75rem' }}>
-            {statCards.map(({ label, value, color }) => (
-              <div key={label} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: '14px', padding: '1.1rem', textAlign: 'center' }}>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color, lineHeight: 1 }}>{value}</div>
-                <div style={{ fontSize: '0.7rem', color: C.muted, marginTop: '0.35rem', fontWeight: 500 }}>{label}</div>
+            {statCards.map(({ label, value, color, bg, border }) => (
+              <div key={label} style={{ background: bg, border: `1px solid ${border}`, borderRadius: '12px', padding: '1.1rem', textAlign: 'center', transition: 'all 0.13s' }}>
+                <div style={{ fontSize: '1.875rem', fontWeight: 800, color, lineHeight: 1, letterSpacing: '-0.03em' }}>{value}</div>
+                <div style={{ fontSize: '0.7rem', color: '#64748b', marginTop: '0.35rem', fontWeight: 500 }}>{label}</div>
               </div>
             ))}
           </div>
 
-          <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: '16px', overflow: 'hidden' }}>
+          <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '14px', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
                 <thead>
-                  <tr style={{ borderBottom: `1px solid ${C.border}`, background: 'rgba(0,0,0,0.2)' }}>
-                    {['Employee','Sheet Status','Goals','Completed','On Track','Avg Score','Actions'].map((h) => (
-                      <th key={h} style={{ padding: '0.75rem 1rem', textAlign: 'left', fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted }}>{h}</th>
+                  <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+                    {['Employee','Status','Goals','Completed','On Track','Avg Score','Actions'].map((h) => (
+                      <th key={h} style={{ padding: '0.75rem 1rem', textAlign: 'left', fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#94a3b8' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {dashboard.employees.map((emp: DashboardEmployee) => {
                     const sheet = allSheets.find((s) => s.id === emp.sheetId);
-                    const scoreColor = emp.avgScore >= 80 ? C.green : emp.avgScore >= 50 ? C.amber : C.red;
+                    const scoreColor = emp.avgScore >= 80 ? '#059669' : emp.avgScore >= 50 ? '#d97706' : '#dc2626';
+                    const scoreBg = emp.avgScore >= 80 ? '#ecfdf5' : emp.avgScore >= 50 ? '#fffbeb' : '#fef2f2';
                     return (
-                      <tr key={emp.employeeId} style={{ borderBottom: `1px solid rgba(255,255,255,0.03)` }}>
+                      <tr key={emp.employeeId} style={{ borderBottom: '1px solid #f8fafc', transition: 'background 0.13s' }}
+                        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#fafbff'; }}
+                        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+                      >
                         <td style={{ padding: '0.75rem 1rem' }}>
-                          <div style={{ fontWeight: 600, color: C.text, fontSize: '0.8125rem' }}>{emp.employeeName}</div>
-                          <div style={{ fontSize: '0.7rem', color: C.muted }}>{emp.employeeEmail}</div>
+                          <div style={{ fontWeight: 600, color: '#0f172a', fontSize: '0.8125rem' }}>{emp.employeeName}</div>
+                          <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>{emp.employeeEmail}</div>
                         </td>
                         <td style={{ padding: '0.75rem 1rem' }}><StatusBadge status={emp.sheetStatus} /></td>
-                        <td style={{ padding: '0.75rem 1rem', textAlign: 'center', color: C.sub }}>{emp.totalGoals}</td>
-                        <td style={{ padding: '0.75rem 1rem', textAlign: 'center', fontWeight: 600, color: C.green }}>{emp.completed}</td>
-                        <td style={{ padding: '0.75rem 1rem', textAlign: 'center', fontWeight: 600, color: '#a5b4fc' }}>{emp.onTrack}</td>
+                        <td style={{ padding: '0.75rem 1rem', textAlign: 'center', color: '#475569' }}>{emp.totalGoals}</td>
+                        <td style={{ padding: '0.75rem 1rem', textAlign: 'center', fontWeight: 700, color: '#059669' }}>{emp.completed}</td>
+                        <td style={{ padding: '0.75rem 1rem', textAlign: 'center', fontWeight: 700, color: '#4338ca' }}>{emp.onTrack}</td>
                         <td style={{ padding: '0.75rem 1rem' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <div style={{ flex: 1, height: '5px', background: 'rgba(255,255,255,0.06)', borderRadius: '3px', overflow: 'hidden' }}>
-                              <div style={{ height: '100%', width: `${emp.avgScore}%`, background: scoreColor, borderRadius: '3px', boxShadow: `0 0 6px ${scoreColor}66` }} />
+                            <div style={{ flex: 1, height: '5px', background: '#f1f5f9', borderRadius: '3px', overflow: 'hidden' }}>
+                              <div style={{ height: '100%', width: `${emp.avgScore}%`, background: scoreColor, borderRadius: '3px', transition: 'width 0.4s' }} />
                             </div>
-                            <span style={{ fontSize: '0.7rem', fontWeight: 700, color: scoreColor, width: '2.5rem' }}>{emp.avgScore}%</span>
+                            <span style={{ fontSize: '0.7rem', fontWeight: 700, color: scoreColor, background: scoreBg, padding: '0.1rem 0.35rem', borderRadius: '4px', minWidth: '2.5rem', textAlign: 'right' }}>{emp.avgScore}%</span>
                           </div>
                         </td>
                         <td style={{ padding: '0.75rem 1rem' }}>
                           {emp.sheetStatus === 'APPROVED' && sheet && (
                             <button onClick={() => setUnlockSheet(sheet)}
-                              style={{ fontSize: '0.7rem', fontWeight: 600, padding: '0.25rem 0.625rem', borderRadius: '6px', background: 'rgba(245,158,11,0.12)', color: '#fcd34d', border: '1px solid rgba(245,158,11,0.3)', cursor: 'pointer' }}>
+                              style={{ fontSize: '0.7rem', fontWeight: 600, padding: '0.25rem 0.625rem', borderRadius: '6px', background: '#fffbeb', color: '#b45309', border: '1px solid #fde68a', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.13s' }}>
                               Unlock
                             </button>
                           )}
@@ -238,7 +258,7 @@ function DashboardSection() {
 export default function AdminPage() {
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 1.5rem 2rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#e2e8f0', margin: 0, letterSpacing: '-0.02em' }}>Admin Panel</h1>
+      <h1 className="page-header">Admin Panel</h1>
       <CycleConfigSection />
       <DashboardSection />
     </div>
