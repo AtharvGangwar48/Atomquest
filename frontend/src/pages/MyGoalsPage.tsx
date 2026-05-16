@@ -24,20 +24,20 @@ function WelcomeBanner({ userId }: { userId: string }) {
       <div style={{ flex: 1 }}>
         <p style={{ fontWeight: 700, fontSize: '0.9rem', color: '#3730a3', margin: '0 0 0.25rem' }}>Welcome to AtomQuest!</p>
         <p style={{ fontSize: '0.8125rem', color: '#4338ca', margin: '0 0 0.625rem', lineHeight: 1.6 }}>
-          Here you set your goals for the year, submit them to your manager, then log quarterly results. Your score is calculated automatically.
+          Set your yearly goals, get manager approval, and track your progress every quarter. It's simple!
         </p>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
           {[
-            '1 · Create a Goal Sheet',
-            '2 · Add goals (weightage must total 100%)',
-            '3 · Submit for manager approval',
-            '4 · Log Q1–Q4 actuals once approved',
+            '1 · Click "Start Goals" button',
+            '2 · Add your goals (total must be 100%)',
+            '3 · Submit to your manager',
+            '4 · Update progress each quarter',
           ].map((tip) => (
             <span key={tip} style={{ fontSize: '0.72rem', fontWeight: 600, color: '#4338ca', background: 'rgba(255,255,255,0.7)', border: '1px solid #c7d2fe', borderRadius: '6px', padding: '0.25rem 0.5rem' }}>{tip}</span>
           ))}
         </div>
         <Link to="/help" style={{ display: 'inline-block', marginTop: '0.625rem', fontSize: '0.775rem', fontWeight: 600, color: '#4f46e5', textDecoration: 'none' }}>
-          See the full Getting Started guide →
+          Need help? Click here for step-by-step guide →
         </Link>
       </div>
       <button onClick={dismiss} title="Dismiss" style={{ position: 'absolute', top: '0.75rem', right: '0.875rem', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', color: '#a5b4fc', lineHeight: 1, padding: '0.125rem', fontFamily: 'inherit' }}>✕</button>

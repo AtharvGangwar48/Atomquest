@@ -4,6 +4,7 @@ const QUICK_LINKS = [
   { to: '/my-goals',  label: 'My Goals' },
   { to: '/team',      label: 'Team Sheets' },
   { to: '/analytics', label: 'Analytics' },
+  { to: '/scoring',   label: 'Scoring System' },
   { to: '/admin',     label: 'Admin Panel' },
   { to: '/audit',     label: 'Audit Trail' },
 ];
@@ -19,7 +20,7 @@ const FEATURES = [
 
 export default function Footer() {
   return (
-    <footer style={{ position: 'relative', zIndex: 10, borderTop: '1px solid #e2e8f0', background: '#ffffff', marginTop: 'auto' }}>
+    <footer style={{ position: 'relative', zIndex: 1, borderTop: '1px solid #e2e8f0', background: '#ffffff', marginTop: 'auto' }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '2.5rem 1.5rem 1.5rem' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '2rem' }}>
 

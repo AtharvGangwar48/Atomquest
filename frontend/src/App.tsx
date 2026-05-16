@@ -6,6 +6,7 @@ import Layout from './components/Layout';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import HelpPage from './pages/HelpPage';
+import ScoringPage from './pages/ScoringPage';
 import MyGoalsPage from './pages/MyGoalsPage';
 import TeamPage from './pages/TeamPage';
 import AdminPage from './pages/AdminPage';
@@ -30,6 +31,7 @@ export default function App() {
                 <Route path="/audit" element={<AuditPage />} />
                 <Route path="/analytics" element={<AnalyticsPage />} />
                 <Route path="/help" element={<HelpPage />} />
+                <Route path="/scoring" element={<ScoringPage />} />
                 <Route path="*" element={<Navigate to="/my-goals" replace />} />
               </Route>
             </Routes>
