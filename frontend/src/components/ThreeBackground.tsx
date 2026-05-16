@@ -1,4 +1,4 @@
-import { useEffect, useRef, Component, ReactNode } from 'react';
+import { useEffect, useRef, Component, type ReactNode } from 'react';
 import * as THREE from 'three';
 
 class ThreeErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
