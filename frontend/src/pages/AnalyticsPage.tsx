@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { getQoQTrends, getCompletionHeatmap, getUomBreakdown, getEscalationLogs, listEscalationRules, upsertEscalationRule, deleteEscalationRule } from '../api';
 import type { EscalationRule, HeatmapRow } from '../types';
+import PageHero from '../components/PageHero';
 
 const COLORS = ['#4f46e5', '#0891b2', '#059669', '#d97706', '#dc2626', '#7c3aed'];
 
@@ -248,6 +249,7 @@ export default function AnalyticsPage() {
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 1.5rem 2rem' }}>
+      <PageHero variant="analytics" />
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.75rem', flexWrap: 'wrap', gap: '0.75rem' }}>
         <h1 className="page-header">Analytics</h1>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>

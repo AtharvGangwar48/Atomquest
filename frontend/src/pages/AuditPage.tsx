@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getAuditTrail } from '../api';
 import type { AuditLog } from '../types';
+import PageHero from '../components/PageHero';
 
 const ACTION_STYLE: Record<string, { bg: string; color: string; border: string }> = {
   CREATE: { bg: '#ecfdf5', color: '#047857', border: '#a7f3d0' },
@@ -53,6 +54,7 @@ export default function AuditPage() {
 
   return (
     <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem 2rem' }}>
+      <PageHero variant="audit" />
       <h1 className="page-header" style={{ marginBottom: '1.5rem' }}>Audit Trail</h1>
 
       {/* Filters */}

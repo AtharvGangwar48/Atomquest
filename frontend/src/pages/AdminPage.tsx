@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { getDashboard, downloadAchievementReport, upsertCycleConfig, getCycleConfigs, unlockSheet, getTeamSheets } from '../api';
 import type { DashboardEmployee, GoalSheet } from '../types';
 import StatusBadge from '../components/StatusBadge';
+import PageHero from '../components/PageHero';
 
 const inputStyle: React.CSSProperties = {
   width: '100%', background: '#ffffff', border: '1px solid #e2e8f0',
@@ -258,6 +259,7 @@ function DashboardSection() {
 export default function AdminPage() {
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 1.5rem 2rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <PageHero variant="admin" />
       <h1 className="page-header">Admin Panel</h1>
       <CycleConfigSection />
       <DashboardSection />

@@ -8,6 +8,8 @@ import { useAuth } from '../store/auth';
 import { msalConfig, loginRequest, isAzureConfigured } from '../config/msalConfig';
 import type { AuthTokens } from '../types';
 import ThreeBackground from '../components/ThreeBackground';
+import BugReportButton from '../components/BugReportButton';
+import Robot3D from '../components/Robot3D';
 import logoImg from '../assets/hero.png';
 
 const schema = z.object({
@@ -59,8 +61,15 @@ export default function LoginPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
       <ThreeBackground />
+      <BugReportButton />
 
-      <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '420px', animation: 'fadeIn 0.4s ease-out' }}>
+      <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '900px', display: 'flex', alignItems: 'center', gap: '3rem', animation: 'fadeIn 0.4s ease-out' }}>
+
+        <div className="robot-panel" style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Robot3D page="login" />
+        </div>
+
+        <div style={{ flex: 1, minWidth: 0, maxWidth: '420px' }}>
 
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
@@ -162,6 +171,7 @@ export default function LoginPage() {
         <p style={{ textAlign: 'center', color: '#cbd5e1', fontSize: '0.75rem', marginTop: '1.5rem' }}>
           © {new Date().getFullYear()} AtomQuest · Enterprise Goal Management
         </p>
+        </div>
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import { useAuth } from '../store/auth';
 import GoalWizard from '../components/GoalWizard';
 import StatusBadge from '../components/StatusBadge';
 import WeightageMeter from '../components/WeightageMeter';
+import PageHero from '../components/PageHero';
 
 // ── Welcome Banner ─────────────────────────────────────────────────────────
 function WelcomeBanner({ userId }: { userId: string }) {
@@ -149,6 +150,7 @@ export default function MyGoalsPage() {
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 1.5rem 2rem' }}>
+      <PageHero variant="mygoals" />
       {user && <WelcomeBanner userId={user.id} />}
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import AboutDeveloper from './AboutDeveloper';
 
 const QUICK_LINKS = [
   { to: '/my-goals',  label: 'My Goals' },
@@ -106,7 +107,10 @@ export default function Footer() {
           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
             © {new Date().getFullYear()} AtomQuest · Enterprise Goal Management
           </span>
-          <span style={{ fontSize: '0.75rem', color: '#cbd5e1', fontWeight: 500 }}>v4.0.0</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <AboutDeveloper />
+            <span style={{ fontSize: '0.75rem', color: '#cbd5e1', fontWeight: 500 }}>v4.0.0</span>
+          </div>
         </div>
       </div>
     </footer>

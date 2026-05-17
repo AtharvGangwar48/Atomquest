@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../store/auth';
+import PageHero from '../components/PageHero';
 
 // ── Types ──────────────────────────────────────────────────────────────────
 type RoleKey = 'EMPLOYEE' | 'MANAGER' | 'ADMIN';
@@ -87,6 +88,7 @@ export default function HelpPage() {
 
   return (
     <div style={{ maxWidth: '860px', margin: '0 auto', padding: '0 1.25rem 3rem' }}>
+      <PageHero variant="help" />
 
       {/* ── Hero ── */}
       <div style={{ ...card, background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)', border: 'none', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', flexWrap: 'wrap' }}>

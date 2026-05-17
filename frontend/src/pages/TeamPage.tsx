@@ -4,6 +4,7 @@ import { getTeamSheets, transitionSheet, updateGoal, addComment, getComments, ge
 import type { GoalSheet, Goal, Quarter, CheckinComment } from '../types';
 import { useCycle } from '../store/cycle';
 import StatusBadge from '../components/StatusBadge';
+import PageHero from '../components/PageHero';
 
 const QUARTERS: Quarter[] = ['Q1', 'Q2', 'Q3', 'Q4'];
 
@@ -284,6 +285,7 @@ export default function TeamPage() {
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 1.5rem 2rem' }}>
+      <PageHero variant="team" />
       <h1 className="page-header" style={{ marginBottom: '1.75rem' }}>Team Goal Sheets</h1>
       {renderGroup('Pending Approval', '#d97706', '#fffbeb', pending)}
       {renderGroup('Active', '#059669', '#ecfdf5', approved)}

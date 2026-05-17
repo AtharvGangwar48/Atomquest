@@ -2,6 +2,7 @@ import { Link, useLocation, Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../store/auth';
 import ThreeBackground from './ThreeBackground';
 import Footer from './Footer';
+import BugReportButton from './BugReportButton';
 
 export default function Layout() {
   const { user, loading, logout } = useAuth();
@@ -134,6 +135,7 @@ export default function Layout() {
       </main>
 
       <Footer />
+      <BugReportButton />
     </div>
   );
 }

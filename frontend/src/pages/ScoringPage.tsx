@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PageHero from '../components/PageHero';
 
 const card: React.CSSProperties = { 
   background: '#ffffff', 
@@ -192,7 +193,8 @@ function Calculator() {
 export default function ScoringPage() {
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 1.5rem 3rem' }}>
-      
+      <PageHero variant="scoring" />
+
       {/* Hero */}
       <div style={{ ...card, background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)', border: 'none', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', flexWrap: 'wrap' }}>
         <div>
