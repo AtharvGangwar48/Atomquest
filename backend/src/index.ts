@@ -55,15 +55,20 @@ const allowedOrigins = [
   process.env.FRONTEND_URL ?? 'http://localhost:5173',
   'http://localhost:5173',
   'http://localhost:5000',
+  'http://127.0.0.1:5500',
   'https://atomquest-iota.vercel.app'
 ];
 
 app.use(cors({ 
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow requests with no origin (like mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      console.log(`CORS blocked origin: ${origin}`);
+      callback(null, false);
     }
   },
   credentials: true 
