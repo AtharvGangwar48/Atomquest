@@ -32,8 +32,12 @@ export default function LoginPage() {
       const res = await apiLogin(data.email, data.password);
       setTokens(res.accessToken, res.refreshToken, res.user);
       navigate(res.user.role === 'EMPLOYEE' ? '/my-goals' : '/team');
-    } catch {
-      setError('root', { message: 'Invalid credentials. Please try again.' });
+    } catch (err: any) {
+      if (err?.code === 'ECONNABORTED' || err?.message?.includes('timeout')) {
+        setError('root', { message: 'Server is waking up. Please wait 30 seconds and try again.' });
+      } else {
+        setError('root', { message: 'Invalid credentials. Please try again.' });
+      }
     }
   };
 
@@ -106,6 +110,15 @@ export default function LoginPage() {
               <input {...register('password')} type="password" className="input-dark" placeholder="••••••••" />
               {errors.password && <p style={{ color: '#dc2626', fontSize: '0.75rem', marginTop: '0.3rem' }}>{errors.password.message}</p>}
             </div>
+            {isSubmitting && (
+              <div style={{ padding: '0.625rem 0.875rem', borderRadius: '8px', background: '#fef9e7', border: '1px solid #fde68a', color: '#92400e', fontSize: '0.8125rem', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 6v6l4 2"/>
+                </svg>
+                <span>First login may take 30-60 seconds as server wakes up. Please wait...</span>
+              </div>
+            )}
             {errors.root && (
               <div style={{ padding: '0.625rem 0.875rem', borderRadius: '8px', background: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', fontSize: '0.8125rem', fontWeight: 500 }}>
                 {errors.root.message}

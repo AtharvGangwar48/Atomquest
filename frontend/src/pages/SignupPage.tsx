@@ -171,6 +171,16 @@ function Step2({ companyName, onBack, onSubmit, isLoading, error }: {
         {errors.confirmPassword && <p style={errStyle}>{errors.confirmPassword.message}</p>}
       </div>
 
+      {isLoading && (
+        <div style={{ padding: '0.625rem 0.875rem', borderRadius: '8px', background: '#fef9e7', border: '1px solid #fde68a', color: '#92400e', fontSize: '0.8125rem', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+          <span>First signup may take 30-60 seconds as server wakes up. Please wait...</span>
+        </div>
+      )}
+
       {error && (
         <div style={{ padding: '0.625rem 0.875rem', borderRadius: '8px', background: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', fontSize: '0.8125rem', fontWeight: 500 }}>
           {error}
@@ -264,7 +274,13 @@ export default function SignupPage() {
       setStep(2);
     } catch (err: any) {
       const msg = err?.response?.data?.error;
-      setApiError(typeof msg === 'string' ? msg : 'Signup failed. This email may already be in use.');
+      if (err?.code === 'ECONNABORTED' || err?.message?.includes('timeout')) {
+        setApiError('Server is waking up. Please wait 30 seconds and try again.');
+      } else if (typeof msg === 'string') {
+        setApiError(msg);
+      } else {
+        setApiError('Signup failed. This email may already be in use.');
+      }
     } finally {
       setIsLoading(false);
     }
