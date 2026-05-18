@@ -88,17 +88,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Tech Stack */}
-          <div>
-            <h4 style={{ fontSize: '0.7rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '0.875rem', margin: '0 0 0.875rem' }}>Built With</h4>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
-              {['React 18', 'TypeScript', 'Node.js', 'PostgreSQL', 'Three.js', 'Prisma', 'Vite', 'JWT Auth'].map((t) => (
-                <span key={t} style={{ fontSize: '0.65rem', padding: '0.2rem 0.5rem', borderRadius: '5px', background: '#f8fafc', color: '#64748b', border: '1px solid #e2e8f0', fontWeight: 500 }}>
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
+
         </div>
       </div>
 
