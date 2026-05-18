@@ -11,13 +11,13 @@ const MESSAGES = [
 function buildRobot(scene: THREE.Scene) {
   const robot = new THREE.Group();
 
-  const bodyMat   = new THREE.MeshPhongMaterial({ color: 0x4f46e5, shininess: 90 });
-  const darkMat   = new THREE.MeshPhongMaterial({ color: 0x312e81, shininess: 60 });
-  const lightMat  = new THREE.MeshPhongMaterial({ color: 0x818cf8, shininess: 120 });
-  const eyeMat    = new THREE.MeshPhongMaterial({ color: 0x00f5ff, emissive: 0x00f5ff, emissiveIntensity: 0.8, shininess: 200 });
-  const mouthMat  = new THREE.MeshPhongMaterial({ color: 0x6ee7b7, emissive: 0x6ee7b7, emissiveIntensity: 0.5 });
-  const antMat    = new THREE.MeshPhongMaterial({ color: 0xfbbf24, emissive: 0xfbbf24, emissiveIntensity: 0.4 });
-  const jointMat  = new THREE.MeshPhongMaterial({ color: 0x1e1b4b, shininess: 40 });
+  const bodyMat   = new THREE.MeshPhongMaterial({ color: 0x0369a1, shininess: 90 });
+  const darkMat   = new THREE.MeshPhongMaterial({ color: 0x0c4a6e, shininess: 60 });
+  const lightMat  = new THREE.MeshPhongMaterial({ color: 0x38bdf8, shininess: 120 });
+  const eyeMat    = new THREE.MeshPhongMaterial({ color: 0xfbbf24, emissive: 0xfbbf24, emissiveIntensity: 0.9, shininess: 200 });
+  const mouthMat  = new THREE.MeshPhongMaterial({ color: 0x4ade80, emissive: 0x4ade80, emissiveIntensity: 0.5 });
+  const antMat    = new THREE.MeshPhongMaterial({ color: 0xf97316, emissive: 0xf97316, emissiveIntensity: 0.5 });
+  const jointMat  = new THREE.MeshPhongMaterial({ color: 0x082f49, shininess: 40 });
 
   // ── Torso ──────────────────────────────────────────────────────────────
   const torso = new THREE.Mesh(new THREE.BoxGeometry(1.1, 1.3, 0.7), bodyMat);
@@ -208,10 +208,10 @@ export default function Robot3D({ page }: { page: 'login' | 'signup' }) {
     const key = new THREE.DirectionalLight(0xffffff, 1.1);
     key.position.set(3, 5, 4);
     scene.add(key);
-    const fill = new THREE.DirectionalLight(0x818cf8, 0.5);
+    const fill = new THREE.DirectionalLight(0x38bdf8, 0.5);
     fill.position.set(-3, 2, 2);
     scene.add(fill);
-    const rim = new THREE.DirectionalLight(0x00f5ff, 0.3);
+    const rim = new THREE.DirectionalLight(0xf97316, 0.3);
     rim.position.set(0, -2, -3);
     scene.add(rim);
 
@@ -219,7 +219,7 @@ export default function Robot3D({ page }: { page: 'login' | 'signup' }) {
 
     // Shadow circle under feet
     const shadowGeo = new THREE.CircleGeometry(0.7, 32);
-    const shadowMat = new THREE.MeshBasicMaterial({ color: 0x4f46e5, transparent: true, opacity: 0.12 });
+    const shadowMat = new THREE.MeshBasicMaterial({ color: 0x0369a1, transparent: true, opacity: 0.15 });
     const shadow = new THREE.Mesh(shadowGeo, shadowMat);
     shadow.rotation.x = -Math.PI / 2;
     shadow.position.y = -2.18;
@@ -282,17 +282,17 @@ export default function Robot3D({ page }: { page: 'login' | 'signup' }) {
       <div style={{
         position: 'relative',
         background: '#ffffff',
-        border: '1.5px solid #c7d2fe',
+        border: '1.5px solid #7dd3fc',
         borderRadius: '14px',
         padding: '0.75rem 1rem',
         maxWidth: '220px',
         minHeight: '52px',
-        boxShadow: '0 4px 16px rgba(79,70,229,0.12)',
+        boxShadow: '0 4px 16px rgba(3,105,161,0.15)',
         marginBottom: '0',
       }}>
-        <p style={{ fontSize: '0.8rem', color: '#3730a3', fontWeight: 600, margin: 0, lineHeight: 1.5, minHeight: '2.4em' }}>
+        <p style={{ fontSize: '0.8rem', color: '#0369a1', fontWeight: 600, margin: 0, lineHeight: 1.5, minHeight: '2.4em' }}>
           {displayed}
-          <span style={{ display: 'inline-block', width: '2px', height: '0.85em', background: '#4f46e5', marginLeft: '1px', verticalAlign: 'text-bottom', animation: 'blink-cursor 0.7s step-end infinite' }} />
+          <span style={{ display: 'inline-block', width: '2px', height: '0.85em', background: '#0369a1', marginLeft: '1px', verticalAlign: 'text-bottom', animation: 'blink-cursor 0.7s step-end infinite' }} />
         </p>
         {/* Bubble tail pointing down */}
         <div style={{
@@ -300,7 +300,7 @@ export default function Robot3D({ page }: { page: 'login' | 'signup' }) {
           width: 0, height: 0,
           borderLeft: '9px solid transparent',
           borderRight: '9px solid transparent',
-          borderTop: '10px solid #c7d2fe',
+          borderTop: '10px solid #7dd3fc',
         }} />
         <div style={{
           position: 'absolute', bottom: '-8px', left: '50%', transform: 'translateX(-50%)',
@@ -315,7 +315,7 @@ export default function Robot3D({ page }: { page: 'login' | 'signup' }) {
       <canvas ref={canvasRef} style={{ width: 220, height: 320 }} />
 
       {/* Label */}
-      <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#818cf8', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '-8px' }}>
+      <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#0369a1', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '-8px' }}>
         {isLogin ? 'AtomBot · Login Assistant' : 'AtomBot · Setup Assistant'}
       </div>
 
