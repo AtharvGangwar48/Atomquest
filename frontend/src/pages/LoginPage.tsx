@@ -59,7 +59,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0c4a6e 0%, #0369a1 40%, #ea580c 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
       <ThreeBackground />
       <BugReportButton />
 
@@ -73,11 +73,11 @@ export default function LoginPage() {
 
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', width: '70px', height: '70px', borderRadius: '20px', background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', boxShadow: '0 8px 24px rgba(79,70,229,0.25)', padding: '6px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', width: '70px', height: '70px', borderRadius: '20px', background: 'linear-gradient(135deg,#ea580c,#f97316)', boxShadow: '0 8px 24px rgba(234,88,12,0.35)', padding: '6px' }}>
             <img src={logoImg} alt="AtomQuest" style={{ width: '100%', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
           </div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a', margin: 0, letterSpacing: '-0.03em' }}>AtomQuest</h1>
-          <p style={{ color: '#94a3b8', fontSize: '0.875rem', marginTop: '0.25rem' }}>Goal Setting & Tracking Portal</p>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#ffffff', margin: 0, letterSpacing: '-0.03em' }}>AtomQuest</h1>
+          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem', marginTop: '0.25rem' }}>Goal Setting & Tracking Portal</p>
         </div>
 
         {/* Card */}
@@ -144,12 +144,12 @@ export default function LoginPage() {
           </form>
 
           {/* Signup CTA */}
-          <div style={{ marginTop: '1.25rem', padding: '0.875rem 1rem', borderRadius: '10px', background: '#f5f3ff', border: '1px solid #ddd6fe', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
+          <div style={{ marginTop: '1.25rem', padding: '0.875rem 1rem', borderRadius: '10px', background: '#fff7ed', border: '1px solid #fed7aa', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
             <div>
-              <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#3730a3', margin: 0 }}>New organisation?</p>
-              <p style={{ fontSize: '0.75rem', color: '#6d28d9', margin: '0.15rem 0 0' }}>Set up your company in 2 minutes.</p>
+              <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#9a3412', margin: 0 }}>New organisation?</p>
+              <p style={{ fontSize: '0.75rem', color: '#c2410c', margin: '0.15rem 0 0' }}>Set up your company in 2 minutes.</p>
             </div>
-            <Link to="/signup" style={{ flexShrink: 0, padding: '0.45rem 0.875rem', borderRadius: '7px', background: '#4f46e5', color: 'white', fontSize: '0.8rem', fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap', transition: 'background 0.15s' }}>
+            <Link to="/signup" style={{ flexShrink: 0, padding: '0.45rem 0.875rem', borderRadius: '7px', background: '#ea580c', color: 'white', fontSize: '0.8rem', fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap', transition: 'background 0.15s' }}>
               Create account →
             </Link>
           </div>
@@ -168,7 +168,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <p style={{ textAlign: 'center', color: '#cbd5e1', fontSize: '0.75rem', marginTop: '1.5rem' }}>
+        <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', marginTop: '1.5rem' }}>
           © {new Date().getFullYear()} AtomQuest · Enterprise Goal Management
         </p>
         </div>

@@ -35,7 +35,7 @@ export default function Layout() {
   const rp = rolePill[user.role] ?? rolePill.EMPLOYEE;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8fafc', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #f0f9ff 0%, #fefce8 50%, #fff7ed 100%)', display: 'flex', flexDirection: 'column' }}>
       <ThreeBackground />
 
       {/* ── Navbar ── */}
@@ -54,8 +54,8 @@ export default function Layout() {
             <svg width="30" height="30" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="logoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#4f46e5"/>
-                  <stop offset="100%" stopColor="#7c3aed"/>
+                  <stop offset="0%" stopColor="#ea580c"/>
+                  <stop offset="100%" stopColor="#f97316"/>
                 </linearGradient>
               </defs>
               <rect width="32" height="32" rx="9" fill="url(#logoGrad)"/>
@@ -68,7 +68,7 @@ export default function Layout() {
             </svg>
             <div>
               <div style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.1, letterSpacing: '-0.02em' }}>AtomQuest</div>
-              <div style={{ fontSize: '0.6rem', color: '#4f46e5', fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase' }}>Goals Portal</div>
+              <div style={{ fontSize: '0.6rem', color: '#ea580c', fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase' }}>Goals Portal</div>
             </div>
           </Link>
 
@@ -86,13 +86,13 @@ export default function Layout() {
                     borderRadius: '7px',
                     fontSize: '0.8125rem',
                     fontWeight: active ? 600 : 500,
-                    color: active ? '#4f46e5' : '#475569',
-                    background: active ? '#eef2ff' : 'transparent',
+                    color: active ? '#0369a1' : '#475569',
+                    background: active ? '#e0f2fe' : 'transparent',
                     textDecoration: 'none',
                     transition: 'all 0.13s',
                     whiteSpace: 'nowrap',
                   }}
-                  onMouseEnter={(e) => { if (!active) { (e.currentTarget as HTMLElement).style.color = '#4f46e5'; (e.currentTarget as HTMLElement).style.background = '#f5f3ff'; } }}
+                  onMouseEnter={(e) => { if (!active) { (e.currentTarget as HTMLElement).style.color = '#0369a1'; (e.currentTarget as HTMLElement).style.background = '#f0f9ff'; } }}
                   onMouseLeave={(e) => { if (!active) { (e.currentTarget as HTMLElement).style.color = '#475569'; (e.currentTarget as HTMLElement).style.background = 'transparent'; } }}
                 >
                   {l.label}
@@ -104,7 +104,7 @@ export default function Layout() {
           {/* Right — User info */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', justifyContent: 'flex-end' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700, color: 'white', flexShrink: 0 }}>
+              <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'linear-gradient(135deg,#ea580c,#f97316)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700, color: 'white', flexShrink: 0 }}>
                 {user.name[0].toUpperCase()}
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.25 }}>
