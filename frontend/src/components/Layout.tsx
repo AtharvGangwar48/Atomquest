@@ -24,7 +24,7 @@ export default function Layout() {
     { to: '/analytics', label: 'Analytics',   roles: ['MANAGER', 'ADMIN'] },
     { to: '/admin',     label: 'Admin',       roles: ['ADMIN'] },
     { to: '/audit',     label: 'Audit Trail', roles: ['ADMIN'] },
-    { to: '/help',      label: '? Guide',     roles: ['EMPLOYEE', 'MANAGER', 'ADMIN'] },
+    { to: '/help',      label: 'Guide',     roles: ['EMPLOYEE', 'MANAGER', 'ADMIN'] },
   ].filter((l) => l.roles.includes(user.role));
 
   const rolePill: Record<string, { bg: string; color: string; border: string }> = {
