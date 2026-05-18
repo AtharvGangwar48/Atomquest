@@ -8,7 +8,7 @@ export default function AboutDeveloper() {
       onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = '#eef2ff'; el.style.borderColor = '#c7d2fe'; el.style.color = '#4f46e5'; }}
       onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = 'transparent'; el.style.borderColor = '#e2e8f0'; el.style.color = '#64748b'; }}
     >
-      <span style={{ fontSize: '0.82rem' }}>👨💻</span> About Developer
+      About Developer
     </a>
   );
 }
