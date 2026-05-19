@@ -3,7 +3,7 @@ import { Bug } from 'lucide-react';
 
 export default function BugReportButton() {
   const [hovered, setHovered] = useState(false);
-  const issueUrl = 'https://github.com/atharvgangwar/atomquest/issues/new?labels=bug&template=bug_report.md';
+  const issueUrl = 'https://github.com/atharvgangwar/Atomquest';
 
   return (
     <a
